@@ -4,6 +4,7 @@ import {
   trainDigipet,
   walkDigipet,
   ignoreDigipet,
+  rehomeDigipet,
 } from "./controller";
 import { getDigipet, INITIAL_DIGIPET, setDigipet } from "./model";
 
@@ -197,5 +198,19 @@ describe("ignoreDigipet", () => {
 
     // assert
     expect(getDigipet()).toHaveProperty("discipline", 0);
+  });
+});
+
+describe("rehomeDigipet", () => {
+  it("release digitpet and set the digitpet to null", () => {
+    // setup
+    setDigipet(INITIAL_DIGIPET);
+    expect(getDigipet()).toStrictEqual(INITIAL_DIGIPET);
+
+    // act
+    rehomeDigipet();
+
+    // assert
+    expect(getDigipet()).toStrictEqual(null);
   });
 });

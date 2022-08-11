@@ -43,3 +43,7 @@ export function ignoreDigipet(): void {
   updateDigipetBounded("nutrition", -5);
   updateDigipetBounded("discipline", -5);
 }
+
+export function rehomeDigipet(): void {
+  setDigipet(undefined);
+}

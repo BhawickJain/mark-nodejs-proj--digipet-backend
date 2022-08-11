@@ -3,6 +3,7 @@ import {
   feedDigipet,
   hatchDigipet,
   ignoreDigipet,
+  rehomeDigipet,
   trainDigipet,
   walkDigipet,
 } from "./digipet/controller";
@@ -231,6 +232,33 @@ describe("action routes", () => {
       await supertest(app).get("/digipet/ignore");
       // assert
       expect(ignoreDigipet).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("GET /digipet/rehome", () => {
+    test("if the user has a digipet, it responds with a message about the rehome", async () => {
+      // setup: reset digipet
+      setDigipet(INITIAL_DIGIPET);
+
+      const response = await supertest(app).get("/digipet/rehome");
+
+      // response includes a relevant message
+      expect(response.body.message).toMatch(/rehome/i);
+
+      // response includes digipet data
+      expect(response.body.digipet).toBe(undefined);
+    });
+
+    it("delegates state change to the walkDigipet function", async () => {
+      // setup: reset digipet and mock function
+      setDigipet(INITIAL_DIGIPET);
+      if (jest.isMockFunction(rehomeDigipet) /* type guard */) {
+        rehomeDigipet.mockReset();
+      }
+      // act
+      await supertest(app).get("/digipet/rehome");
+      // assert
+      expect(rehomeDigipet).toHaveBeenCalledTimes(1);
     });
   });
 });
