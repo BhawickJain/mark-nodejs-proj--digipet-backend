@@ -4,6 +4,7 @@ import { getDigipet } from "./digipet/model";
 import {
   feedDigipet,
   hatchDigipet,
+  ignoreDigipet,
   trainDigipet,
   walkDigipet,
 } from "./digipet/controller";
@@ -99,14 +100,30 @@ app.get("/digipet/feed", (req, res) => {
   if (getDigipet()) {
     feedDigipet();
     res.json({
-      message:
-        "You fed your digipet. It looks more disciplined but a little sad now!",
+      message: "You fed your digipet. It looks less disciplined but healthier!",
       digipet: getDigipet(),
     });
   } else {
     res.json({
       message:
         "You don't have a digipet to feed! Try hatching one with /digipet/hatch",
+    });
+  }
+});
+
+app.get("/digipet/ignore", (req, res) => {
+  // check the user has a digipet to ignore
+  if (getDigipet()) {
+    ignoreDigipet();
+    res.json({
+      message:
+        "You ignored your digipet. It looks less disciplined but healthier!",
+      digipet: getDigipet(),
+    });
+  } else {
+    res.json({
+      message:
+        "You don't have a digipet to ignore! Try hatching one with /digipet/hatch",
     });
   }
 });
